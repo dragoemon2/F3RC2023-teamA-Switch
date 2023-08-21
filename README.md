@@ -1,4 +1,4 @@
-#　F3RC-teamA-Switch
+# F3RC-teamA-Switch
 
 マイクロスイッチの読み取りができます．
 チャタリング対策を含みます．動作未確認です．
