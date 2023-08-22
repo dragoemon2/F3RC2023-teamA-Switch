@@ -23,15 +23,6 @@ void Switch::riseInterrupt(){
     ticker.attach([this] {riseCheck();}, std::chrono::milliseconds(interval));
 }
 
-//立ち下がり割り込み
-void Switch::fallInterrupt(){
-    if(monitoring || !status){
-        return;
-    }
-    monitoring = true;
-    ticker.attach([this] {fallCheck();}, std::chrono::milliseconds(interval));
-}
-
 //サンプリング．チャタリング対策
 void Switch::riseCheck(){
     if(interruptin.read()){
@@ -40,6 +31,7 @@ void Switch::riseCheck(){
             status = true;
             ticker.detach();
             monitoring = false;
+            total_count++;
         }
     }else{
         counter=0;
@@ -48,19 +40,16 @@ void Switch::riseCheck(){
     }
 }
 
-//サンプリング．チャタリング対策
-void Switch::fallCheck(){
-    if(!interruptin.read()){
-        counter++;
-        if(counter >= detectionThreshold){
-            status = false;
-            ticker.detach();
-            monitoring = false;
-        }
-    }else{
-        counter=0;
-        ticker.detach();
-        monitoring = false;
+
+void Switch::fallInterrupt(){
+    /*
+    if(!monitoring){
+        status = false;
     }
+    */
+    status = false;
+    counter = 0;
+    ticker.detach();
+    monitoring = false;
 }
 
