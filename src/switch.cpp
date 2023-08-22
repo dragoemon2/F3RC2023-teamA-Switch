@@ -6,7 +6,7 @@ Switch::Switch(PinName pin, unsigned int interval, unsigned int detectionThresho
     monitoring = false;
     status = interruptin.read();
     interruptin.rise([this] {riseInterrupt();});
-    interruptin.fall([this] {riseInterrupt();});
+    interruptin.fall([this] {fallInterrupt();});
 }
 
 //押されてるか否か
